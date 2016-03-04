@@ -14,13 +14,15 @@ class TestMethods(unittest.TestCase):
       self.assertFalse(threats(('R', 5, 3), ('Q', 4, 2)))
       self.assertTrue(threats(('K', 4, 3), ('Q', 3, 4)))
       self.assertFalse(threats(('K', 4, 3), ('Q', 2, 5)))
-      self.assertTrue(threats(('N', 1, 1), ('Q', 2, 2)))
-      self.assertFalse(threats(('N', 1, 1), ('Q', 1, 2)))
+      self.assertTrue(threats(('N', 0, 1), ('Q', 2, 2)))
+      self.assertFalse(threats(('N', 0, 1), ('Q', 1, 2)))
 
   def test_valid_combinations(self):
       self.assertTrue(valid_combination((('R', 0, 0), ('R', 1, 1)))[0])
       self.assertEqual(valid_combination((('R', 0, 0), ('R', 1, 1)))[1], (('R', 1, 1), ('R', 0, 0)))
       self.assertFalse(valid_combination((('R', 0, 0), ('Q', 0, 0)))[0])
+      self.assertTrue(valid_combination((('R', 0, 0), (('R', 1, 1), ('R', 2, 2))))[0])
+      self.assertFalse(valid_combination((('R', 0, 0), (('R', 1, 1), ('R', 2, 2), ('B', 3, 3))))[0])
   
   def test_one_piece_only(self):
       self.assertEqual(find_configurations(3, 3, 1, 0, 0, 0, 0), 9)

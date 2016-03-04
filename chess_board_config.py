@@ -60,8 +60,22 @@ def find_configurations(x, y, k, q, b, r, n):
         # Loop for these two pieces
         for c in combs:
             v, vc = valid_combination(c)
-            if (v):
-                valid_combs_list.add(vc)
+
+            # If it's a valid combination
+            if v:
+                if len(valid_combs_list) == 0:
+                    valid_combs_list.add(vc)
+                else:
+                    # Don't include duplicates
+                    inc = True
+                    check_combs = itertools.permutations(vc, len(vc))
+                    for cc in check_combs:
+                        if cc in valid_combs_list:
+                            inc = False
+                            break
+
+                    if inc:
+                        valid_combs_list.add(vc)
 
         piece_iter = itertools.chain(valid_combs_list)
 
@@ -153,8 +167,10 @@ def threats(first_piece, second_piece):
 
     # Knight
     if (first_piece[0] == 'N'):
-        if (abs(second_piece[1] - first_piece[1]) == 1 and
-                abs(second_piece[2] - first_piece[2]) == 1):
+        if ((abs(second_piece[1] - first_piece[1]) == 2 and
+            abs(second_piece[2] - first_piece[2]) == 1) or
+            (abs(second_piece[1] - first_piece[1]) == 1 and
+            abs(second_piece[2] - first_piece[2]) == 2)):
             return True
 
 
