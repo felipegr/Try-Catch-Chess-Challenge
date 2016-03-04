@@ -95,12 +95,67 @@ def valid_combination(combination):
     threatened and the combination itself as a Tuple.
     """
     first_piece = combination[0]
-    pieces = list(combination[1])
+
+    # If the rest is just one piece
+    if type(combination[1][0]) != tuple:
+        pieces = [combination[1]]
+    else:
+        pieces = list(combination[1])
+    
+    return_combination = list(pieces)
+    return_combination.append(combination[0])
 
     # Loop comparissons
     while len(pieces) > 0:
         for piece in pieces:
-            if threats(first_piece, piece)
+            if threats(first_piece, piece):
+                return False, ()
+            if threats(piece, first_piece):
+                return False, ()
+
+        first_piece = pieces.pop(0)
+
+    # If there's no threat
+    return True, tuple(return_combination)
+
+
+def threats(first_piece, second_piece):
+    """Check if there's a threat between two pieces.
+
+    Keyword arguments:
+    first_piece -- Tuple with a piece type, x position and y position
+    second_piece -- Tuple with a piece type, x position and y position
+
+    Returns a boolean if one of the pieces threats the other.
+    """
+    # Same position
+    if (first_piece[1] == second_piece[1] and
+            first_piece[2] == second_piece[2]):
+        return True
+
+    # Same column or line: Queens and Rooks
+    if (first_piece[0] in ('Q', 'R')):
+        if (first_piece[1] == second_piece[1] or
+                first_piece[2] == second_piece[2]):
+            return True
+
+    # Diagonal: Queens and Bishops
+    if (first_piece[0] in ('Q', 'B')):
+        if (abs(second_piece[1] - first_piece[1]) ==
+                abs(second_piece[2] - first_piece[2])):
+            return True
+
+    # King
+    if (first_piece[0] == 'K'):
+        if (abs(second_piece[1] - first_piece[1]) in (0, 1) and
+                abs(second_piece[2] - first_piece[2]) in (0, 1)):
+            return True
+
+    # Knight
+    if (first_piece[0] == 'N'):
+        if (abs(second_piece[1] - first_piece[1]) == 1 and
+                abs(second_piece[2] - first_piece[2]) == 1):
+            return True
 
 
 if __name__ == "__main__":
