@@ -8,7 +8,8 @@ def main():
     """Main function."""
     # Find configurations and print them to the screen
     configs = find_configurations(args.x, args.y, args.kings, args.queens,
-                                  args.bishops, args.rooks, args.knights)
+                                  args.bishops, args.rooks, args.knights,
+                                  args.verbose)
 
     # Print total number of configurations
     print ''
@@ -17,7 +18,7 @@ def main():
     sys.exit()
 
 
-def find_configurations(x, y, k, q, b, r, n):
+def find_configurations(x, y, k, q, b, r, n, verbose):
     """Find and print all configurations for a chess board where no piece
     threats another.
 
@@ -52,6 +53,7 @@ def find_configurations(x, y, k, q, b, r, n):
     piece_iter = iterators.pop(0)
 
     # Loop to check all combinations of all pieces
+    comb_num = -1
     while len(iterators) > 0:
         sec_piece = iterators.pop(0)
         combs = itertools.product(sec_piece, piece_iter)
@@ -77,19 +79,23 @@ def find_configurations(x, y, k, q, b, r, n):
                     if inc:
                         valid_combs_list.add(vc)
 
+        comb_num = len(valid_combs_list)
         piece_iter = itertools.chain(valid_combs_list)
 
-    # Set final combinations
-    final_combinations = piece_iter
-    
-    print ''
-    print 'Combinations: '
+    # Gets number of combinations if not set
+    if (comb_num < 0):
+        comb_num = sum(1 for x in piece_iter)
 
-    # Print combinations
-    comb_num = 0
-    for elem in final_combinations:
-        print elem
-        comb_num = comb_num + 1
+    if (verbose):
+        # Set final combinations to print
+        final_combinations = piece_iter
+        
+        print ''
+        print 'Combinations: '
+
+        # Print combinations
+        for elem in final_combinations:
+            print elem
 
     # Set end time and print elapsed time
     elapsed_time = time.time() - start_time
@@ -194,6 +200,8 @@ if __name__ == "__main__":
                         help='Number of Rooks to be placed on the board')
     parser.add_argument('-n', '--knights', type=int, default=0,
                         help='Number of Knights to be placed on the board')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Writes the board combinations to the screen')
     args = parser.parse_args()
 
     # Some arguments checking
