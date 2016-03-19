@@ -1,5 +1,5 @@
 import unittest
-from chess_board_config import *
+from chess_board_lib import *
 
 class TestMethods(unittest.TestCase):
 
@@ -20,6 +20,8 @@ class TestMethods(unittest.TestCase):
   def test_valid_combinations(self):
       self.assertTrue(valid_combination((('R', 0, 0), ('R', 1, 1)))[0])
       self.assertEqual(valid_combination((('R', 0, 0), ('R', 1, 1)))[1], (('R', 1, 1), ('R', 0, 0)))
+      self.assertEqual(valid_combination((('R', 0, 0), (('R', 1, 1), ('R', 2, 2))))[1], (('R', 1, 1), ('R', 2, 2), ('R', 0, 0)))
+      self.assertNotEqual(valid_combination((('R', 0, 0), (('R', 1, 1), ('R', 2, 2))))[1], (('R', 0, 0), ('R', 1, 1), ('R', 2, 2)))
       self.assertFalse(valid_combination((('R', 0, 0), ('Q', 0, 0)))[0])
       self.assertTrue(valid_combination((('R', 0, 0), (('R', 1, 1), ('R', 2, 2))))[0])
       self.assertFalse(valid_combination((('R', 0, 0), (('R', 1, 1), ('R', 2, 2), ('B', 3, 3))))[0])
@@ -27,6 +29,10 @@ class TestMethods(unittest.TestCase):
   def test_one_piece_only(self):
       self.assertEqual(find_configurations(3, 3, 1, 0, 0, 0, 0, False), 9)
       self.assertEqual(find_configurations(4, 4, 0, 0, 0, 1, 0, False), 16)
+
+  def test_know_combinations(self):
+      self.assertEqual(find_configurations(3, 3, 2, 0, 0, 1, 0, False), 4)
+      self.assertEqual(find_configurations(4, 4, 0, 0, 0, 2, 4, False), 8)
 
 if __name__ == '__main__':
     unittest.main()
