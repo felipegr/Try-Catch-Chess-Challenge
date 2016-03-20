@@ -65,15 +65,7 @@ def find_configurations(x_dim, y_dim, kings, queens, bishops, rooks,
                     valid_combs_list.add(valid_comb)
                 else:
                     # Don't include duplicates
-                    inc = True
-                    check_combs = itertools.permutations(valid_comb,
-                                                         len(valid_comb))
-                    for check_comb in check_combs:
-                        if check_comb in valid_combs_list:
-                            inc = False
-                            break
-
-                    if inc:
+                    if not is_duplicate(valid_comb, valid_combs_list):
                         valid_combs_list.add(valid_comb)
 
         comb_num = len(valid_combs_list)
@@ -97,7 +89,7 @@ def find_configurations(x_dim, y_dim, kings, queens, bishops, rooks,
     # Set end time and print elapsed time
     elapsed_time = time.time() - start_time
     print ''
-    print('Total elapsed time: {0} seconds'.format(elapsed_time))
+    print 'Total elapsed time: {0} seconds'.format(elapsed_time)
 
     return comb_num
 
@@ -175,3 +167,24 @@ def threats(first_piece, second_piece):
                 (abs(second_piece[1] - first_piece[1]) == 1 and
                  abs(second_piece[2] - first_piece[2]) == 2)):
             return True
+
+
+def is_duplicate(combination, list_of_combinations):
+    """Check if a combination exists in a list of combinations.
+
+    Keyword arguments:
+    combination -- Tuple with positions of pieces
+    list_of_combinations -- List of Tuples with positions of pieces
+
+    Returns True if the combination is contained in the list, False otherwise.
+    """
+    is_contained = False
+    # Create permutations of the combination
+    check_combs = itertools.permutations(combination, len(combination))
+    # Check if any permutation is contained in the list
+    for check_comb in check_combs:
+        if check_comb in list_of_combinations:
+            is_contained = True
+            break
+
+    return is_contained

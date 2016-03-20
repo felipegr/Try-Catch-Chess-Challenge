@@ -30,7 +30,7 @@ def main():
 
     # Print total number of configurations
     print ''
-    print('Total number of configurations: {0}'.format(configs))
+    print 'Total number of configurations: {0}'.format(configs)
 
 
 if __name__ == "__main__":
@@ -60,23 +60,23 @@ if __name__ == "__main__":
     # Some arguments checking
     total_pieces = args.kings + args.queens + args.bishops + args.rooks + \
                    args.knights
-    invalid = False
+    invalid_arguments = False
 
     # Check if dimensions are greater than zero
     if args.x <= 0 or args.y <= 0:
         print "Dimensions must be both greater than zero."
-        invalid = True
+        invalid_arguments = True
 
     # Check if there are pieces to be placed
     if total_pieces == 0:
         print "There aren't pieces to be placed."
-        invalid = True
+        invalid_arguments = True
 
     # Check if number of pieces is correct
     if total_pieces > (args.x * args.y):
         print "There are more pieces than places to put them."
-        invalid = True
+        invalid_arguments = True
 
     # Call main function
-    if not invalid:
+    if not invalid_arguments:
         main()
