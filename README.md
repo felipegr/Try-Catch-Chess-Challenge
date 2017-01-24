@@ -10,3 +10,4 @@ The number of pieces of each type (King, Queen, Bishop, Rook and Knight) to try 
 As output, the program should list all the unique configurations to the console for which all of the pieces can be placed on the board without threatening each other.
 
 [![Build Status](https://travis-ci.org/panchicore/Try-Catch-Chess-Challenge.svg?branch=develop)](https://travis-ci.org/panchicore/Try-Catch-Chess-Challenge)
+[![codecov](https://codecov.io/gh/panchicore/Try-Catch-Chess-Challenge/branch/develop/graph/badge.svg)](https://codecov.io/gh/panchicore/Try-Catch-Chess-Challenge)
