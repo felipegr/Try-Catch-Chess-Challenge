@@ -15,20 +15,48 @@ import time
 
 def find_configurations(x_dim, y_dim, kings, queens, bishops, rooks,
                         knights, verbose):
-    """Find and print all configurations for a chess board where no piece
-    threats another.
-
-    Keyword arguments:
-    x_dim -- Number of squares of the X dimension of the board
-    y_dim -- Number of squares of the Y dimension of the board
-    kings -- Number of Kings to be placed on the board
-    queens -- Number of Queens to be placed on the board
-    bishops -- Number of Bishops to be placed on the board
-    rooks -- Number of Rooks to be placed on the board
-    knights -- Number of Knights to be placed on the board
-
-    Returns the number of configurations found.
     """
+    Find and print all configurations for a chess board where no piece
+    threats another.
+    Args:
+        x_dim: Number of squares of the X dimension of the board
+        y_dim: Number of squares of the Y dimension of the board
+        kings: Number of Kings to be placed on the board
+        queens: Number of Queens to be placed on the board
+        bishops: Number of Bishops to be placed on the board
+        rooks: Number of Rooks to be placed on the board
+        knights: Number of Knights to be placed on the board
+        verbose: Stdout configurations.
+
+    Returns: comb_num Returns the number of configurations found.
+
+    """
+
+    # Some arguments checking
+    # Check if dimensions are greater than zero
+    if x_dim <= 0 or y_dim <= 0:
+        raise ValueError(
+            "Dimensions X={0} Y={1}, "
+            "they must be both greater than zero.".format(x_dim, y_dim)
+        )
+
+    # Check if there are pieces to be placed
+    total_pieces = kings + queens + bishops + rooks + knights
+    if total_pieces == 0:
+        raise ValueError("There aren't pieces to be placed, "
+                         "add some of those chess pieces: "
+                         "kings, queens, bishops, rooks, knights")
+
+    # Check if number of pieces is correct
+    board_dims = x_dim * y_dim
+    if total_pieces > board_dims:
+        raise ValueError(
+            "The dimension of the board is {0} and the pieces quantity are {1}"
+            " Please add a bigger board or use less pieces :)".format(
+                board_dims, total_pieces
+            )
+        )
+
     # Set start time (for total elapsed time)
     start_time = time.time()
 
@@ -95,14 +123,16 @@ def find_configurations(x_dim, y_dim, kings, queens, bishops, rooks,
 
 
 def valid_combination(combination):
-    """Check if a combination is one where no piece is threatened.
-
-    Keyword arguments:
-    combination -- Tuple with positions of pieces
-
-    Returns a boolean that tells if the combination is one where no piece is
-    threatened and the combination itself as a Tuple.
     """
+    Check if a combination is one where no piece is threatened.
+    Args:
+        combination: Tuple with positions of pieces
+
+    Returns: Returns a boolean that tells if the combination
+    is one where no piece is threatened and the combination itself as a Tuple.
+
+    """
+
     first_piece = combination[0]
 
     # If the rest is just one piece
@@ -129,13 +159,14 @@ def valid_combination(combination):
 
 
 def threats(first_piece, second_piece):
-    """Check if there's a threat between two pieces.
+    """
+    Check if there's a threat between two pieces.
+    Args:
+        first_piece: Tuple with a piece type, x position and y position
+        second_piece: Tuple with a piece type, x position and y position
 
-    Keyword arguments:
-    first_piece -- Tuple with a piece type, x position and y position
-    second_piece -- Tuple with a piece type, x position and y position
+    Returns: Returns a boolean if one of the pieces threats the other.
 
-    Returns a boolean if one of the pieces threats the other.
     """
     # Same position
     if (first_piece[1] == second_piece[1] and
@@ -170,13 +201,15 @@ def threats(first_piece, second_piece):
 
 
 def is_duplicate(combination, list_of_combinations):
-    """Check if a combination exists in a list of combinations.
+    """
+    Check if a combination exists in a list of combinations.
+    Args:
+        combination: Tuple with positions of pieces
+        list_of_combinations:  List of Tuples with positions of pieces
 
-    Keyword arguments:
-    combination -- Tuple with positions of pieces
-    list_of_combinations -- List of Tuples with positions of pieces
+    Returns: Returns True if the combination is contained in the list,
+    False otherwise.
 
-    Returns True if the combination is contained in the list, False otherwise.
     """
     is_contained = False
     # Create permutations of the combination
